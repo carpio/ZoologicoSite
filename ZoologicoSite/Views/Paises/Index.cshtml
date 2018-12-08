@@ -1,0 +1,54 @@
+﻿@model ZoologicoSite.Models.ContinentesPaisesModel
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Index</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<div id="ddFiltroContintentesContenedor">
+    @*<select onchange="filtrarContinente();" id="ddFiltroContinentes">
+        @foreach (var item in Model.ListaContinentes)
+        {
+            <option id=@item.ID>@item.Nombre_Continente</option>
+        }
+        </select>*@
+@using (Html.BeginForm("Index", "Paises", FormMethod.Get))
+{
+    @Html.DropDownListFor(f => f.nombreContinente, Model.ListaContinentes)
+    <input type="submit" value="Filtrar" />
+}
+</div>
+<table class="table">
+    <tr>
+        <th>
+            Nombre del país
+        </th>
+        <th>
+            Nombre del continente
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model.ListaPaises)
+{
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.Nombre_Pais)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.T_Continente.Nombre_Continente)
+        </td>
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { id = item.ID }) |
+            @Html.ActionLink("Details", "Details", new { id = item.ID }) |
+            @Html.ActionLink("Delete", "Delete", new { id = item.ID })
+        </td>
+    </tr>
+}
+
+</table>

@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="b2fc0153afd04b56aa12c6cb9c0df20a" Name="Diagram1" ZoomLevel="93">
+        <EntityTypeShape EntityType="ZOOSModel.T_Users" Width="1.5" PointX="7.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="ZOOSModel.T_Animal" Width="1.5" PointX="5.25" PointY="2.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="ZOOSModel.T_Especie" Width="1.5" PointX="3.25" PointY="1.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="ZOOSModel.T_Familia" Width="1.5" PointX="1" PointY="1.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="ZOOSModel.T_Ciudades" Width="1.5" PointX="10.75" PointY="8.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="ZOOSModel.T_Continente" Width="1.5" PointX="0.5" PointY="5.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="ZOOSModel.T_Pais" Width="1.5" PointX="2.75" PointY="5.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="ZOOSModel.T_Zoo" Width="1.5" PointX="7.5" PointY="4.375" IsExpanded="true" />
+        <AssociationConnector Association="ZOOSModel.FK_T_Animal_T_Especie" ManuallyRouted="false" />
+        <AssociationConnector Association="ZOOSModel.FK_T_Animal_T_Pais" ManuallyRouted="false" />
+        <AssociationConnector Association="ZOOSModel.FK_T_Especie_T_Familia" ManuallyRouted="false" />
+        <AssociationConnector Association="ZOOSModel.FK_T_Ciudades_T_Pais" ManuallyRouted="false" />
+        <AssociationConnector Association="ZOOSModel.FK_T_Zoo_T_Ciudades" ManuallyRouted="false" />
+        <AssociationConnector Association="ZOOSModel.FK_T_Pais_T_Continente" ManuallyRouted="false" />
+        <AssociationConnector Association="ZOOSModel.T_Animales_Zoos" ManuallyRouted="false" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

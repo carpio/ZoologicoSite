@@ -1,0 +1,533 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="ZOOSModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="T_Animales_Zoos">
+          <Key>
+            <PropertyRef Name="ID_ZOO" />
+            <PropertyRef Name="ID_Animal" />
+          </Key>
+          <Property Name="ID_ZOO" Type="int" Nullable="false" />
+          <Property Name="ID_Animal" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="T_Users">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Usuario" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="Contrasena" Type="varchar" MaxLength="50" Nullable="false" />
+        </EntityType>
+        <EntityType Name="T_Animal">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Sexo" Type="char" MaxLength="1" />
+          <Property Name="Nacimiento" Type="date" />
+          <Property Name="ID_Pais" Type="int" />
+          <Property Name="ID_Especie" Type="int" Nullable="false" />
+          <Property Name="Nombre_Animal" Type="varchar" MaxLength="50" Nullable="false" />
+        </EntityType>
+        <EntityType Name="T_Especie">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Nombre_Vulgar" Type="varchar" MaxLength="50" />
+          <Property Name="Nombre_Científico" Type="varchar" MaxLength="50" />
+          <Property Name="Peligro_De_Extincion" Type="bit" Nullable="false" />
+          <Property Name="ID_Familia" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="T_Familia">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Familia" Type="varchar" MaxLength="50" Nullable="false" />
+        </EntityType>
+        <EntityType Name="T_Ciudades">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Nombre_Ciudad" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="ID_Pais" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="T_Continente">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Nombre_Continente" Type="varchar" MaxLength="50" Nullable="false" />
+        </EntityType>
+        <EntityType Name="T_Pais">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Nombre_Pais" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="ID_Continente" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="T_Zoo">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="ID_Ciudad" Type="int" Nullable="false" />
+        </EntityType>
+        <Association Name="FK_T_Animal_T_Especie">
+          <End Role="T_Especie" Type="Self.T_Especie" Multiplicity="1" />
+          <End Role="T_Animal" Type="Self.T_Animal" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="T_Especie">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="T_Animal">
+              <PropertyRef Name="ID_Especie" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_T_Animal_T_Pais">
+          <End Role="T_Pais" Type="Self.T_Pais" Multiplicity="0..1" />
+          <End Role="T_Animal" Type="Self.T_Animal" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="T_Pais">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="T_Animal">
+              <PropertyRef Name="ID_Pais" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_T_Animales_Zoos_T_Animal">
+          <End Role="T_Animal" Type="Self.T_Animal" Multiplicity="1" />
+          <End Role="T_Animales_Zoos" Type="Self.T_Animales_Zoos" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="T_Animal">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="T_Animales_Zoos">
+              <PropertyRef Name="ID_Animal" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_T_Animales_Zoos_T_Zoo">
+          <End Role="T_Zoo" Type="Self.T_Zoo" Multiplicity="1" />
+          <End Role="T_Animales_Zoos" Type="Self.T_Animales_Zoos" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="T_Zoo">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="T_Animales_Zoos">
+              <PropertyRef Name="ID_ZOO" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_T_Ciudades_T_Pais">
+          <End Role="T_Pais" Type="Self.T_Pais" Multiplicity="1" />
+          <End Role="T_Ciudades" Type="Self.T_Ciudades" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="T_Pais">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="T_Ciudades">
+              <PropertyRef Name="ID_Pais" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_T_Especie_T_Familia">
+          <End Role="T_Familia" Type="Self.T_Familia" Multiplicity="1" />
+          <End Role="T_Especie" Type="Self.T_Especie" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="T_Familia">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="T_Especie">
+              <PropertyRef Name="ID_Familia" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_T_Pais_T_Continente">
+          <End Role="T_Continente" Type="Self.T_Continente" Multiplicity="1" />
+          <End Role="T_Pais" Type="Self.T_Pais" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="T_Continente">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="T_Pais">
+              <PropertyRef Name="ID_Continente" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_T_Zoo_T_Ciudades">
+          <End Role="T_Ciudades" Type="Self.T_Ciudades" Multiplicity="1" />
+          <End Role="T_Zoo" Type="Self.T_Zoo" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="T_Ciudades">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="T_Zoo">
+              <PropertyRef Name="ID_Ciudad" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="ZOOSModelStoreContainer">
+          <EntitySet Name="T_Animales_Zoos" EntityType="Self.T_Animales_Zoos" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="T_Users" EntityType="Self.T_Users" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="T_Animal" EntityType="Self.T_Animal" Schema="dbo_a" store:Type="Tables" />
+          <EntitySet Name="T_Especie" EntityType="Self.T_Especie" Schema="dbo_a" store:Type="Tables" />
+          <EntitySet Name="T_Familia" EntityType="Self.T_Familia" Schema="dbo_a" store:Type="Tables" />
+          <EntitySet Name="T_Ciudades" EntityType="Self.T_Ciudades" Schema="geo" store:Type="Tables" />
+          <EntitySet Name="T_Continente" EntityType="Self.T_Continente" Schema="geo" store:Type="Tables" />
+          <EntitySet Name="T_Pais" EntityType="Self.T_Pais" Schema="geo" store:Type="Tables" />
+          <EntitySet Name="T_Zoo" EntityType="Self.T_Zoo" Schema="zoo" store:Type="Tables" />
+          <AssociationSet Name="FK_T_Animal_T_Especie" Association="Self.FK_T_Animal_T_Especie">
+            <End Role="T_Especie" EntitySet="T_Especie" />
+            <End Role="T_Animal" EntitySet="T_Animal" />
+          </AssociationSet>
+          <AssociationSet Name="FK_T_Animal_T_Pais" Association="Self.FK_T_Animal_T_Pais">
+            <End Role="T_Pais" EntitySet="T_Pais" />
+            <End Role="T_Animal" EntitySet="T_Animal" />
+          </AssociationSet>
+          <AssociationSet Name="FK_T_Animales_Zoos_T_Animal" Association="Self.FK_T_Animales_Zoos_T_Animal">
+            <End Role="T_Animal" EntitySet="T_Animal" />
+            <End Role="T_Animales_Zoos" EntitySet="T_Animales_Zoos" />
+          </AssociationSet>
+          <AssociationSet Name="FK_T_Animales_Zoos_T_Zoo" Association="Self.FK_T_Animales_Zoos_T_Zoo">
+            <End Role="T_Zoo" EntitySet="T_Zoo" />
+            <End Role="T_Animales_Zoos" EntitySet="T_Animales_Zoos" />
+          </AssociationSet>
+          <AssociationSet Name="FK_T_Ciudades_T_Pais" Association="Self.FK_T_Ciudades_T_Pais">
+            <End Role="T_Pais" EntitySet="T_Pais" />
+            <End Role="T_Ciudades" EntitySet="T_Ciudades" />
+          </AssociationSet>
+          <AssociationSet Name="FK_T_Especie_T_Familia" Association="Self.FK_T_Especie_T_Familia">
+            <End Role="T_Familia" EntitySet="T_Familia" />
+            <End Role="T_Especie" EntitySet="T_Especie" />
+          </AssociationSet>
+          <AssociationSet Name="FK_T_Pais_T_Continente" Association="Self.FK_T_Pais_T_Continente">
+            <End Role="T_Continente" EntitySet="T_Continente" />
+            <End Role="T_Pais" EntitySet="T_Pais" />
+          </AssociationSet>
+          <AssociationSet Name="FK_T_Zoo_T_Ciudades" Association="Self.FK_T_Zoo_T_Ciudades">
+            <End Role="T_Ciudades" EntitySet="T_Ciudades" />
+            <End Role="T_Zoo" EntitySet="T_Zoo" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="ZOOSModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="T_Users">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Usuario" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Contrasena" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+        </EntityType>
+        <EntityType Name="T_Animal">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Sexo" Type="String" MaxLength="1" FixedLength="true" Unicode="false" />
+          <Property Name="Nacimiento" Type="DateTime" Precision="0" />
+          <Property Name="ID_Pais" Type="Int32" />
+          <Property Name="ID_Especie" Type="Int32" Nullable="false" />
+          <Property Name="Nombre_Animal" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <NavigationProperty Name="T_Especie" Relationship="Self.FK_T_Animal_T_Especie" FromRole="T_Animal" ToRole="T_Especie" />
+          <NavigationProperty Name="T_Pais" Relationship="Self.FK_T_Animal_T_Pais" FromRole="T_Animal" ToRole="T_Pais" />
+          <NavigationProperty Name="T_Zoo" Relationship="Self.T_Animales_Zoos" FromRole="T_Animal" ToRole="T_Zoo" />
+        </EntityType>
+        <EntityType Name="T_Especie">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Nombre_Vulgar" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Nombre_Científico" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Peligro_De_Extincion" Type="Boolean" Nullable="false" />
+          <Property Name="ID_Familia" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="T_Animal" Relationship="Self.FK_T_Animal_T_Especie" FromRole="T_Especie" ToRole="T_Animal" />
+          <NavigationProperty Name="T_Familia" Relationship="Self.FK_T_Especie_T_Familia" FromRole="T_Especie" ToRole="T_Familia" />
+        </EntityType>
+        <EntityType Name="T_Familia">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Familia" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <NavigationProperty Name="T_Especie" Relationship="Self.FK_T_Especie_T_Familia" FromRole="T_Familia" ToRole="T_Especie" />
+        </EntityType>
+        <EntityType Name="T_Ciudades">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Nombre_Ciudad" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="ID_Pais" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="T_Pais" Relationship="Self.FK_T_Ciudades_T_Pais" FromRole="T_Ciudades" ToRole="T_Pais" />
+          <NavigationProperty Name="T_Zoo" Relationship="Self.FK_T_Zoo_T_Ciudades" FromRole="T_Ciudades" ToRole="T_Zoo" />
+        </EntityType>
+        <EntityType Name="T_Continente">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Nombre_Continente" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <NavigationProperty Name="T_Pais" Relationship="Self.FK_T_Pais_T_Continente" FromRole="T_Continente" ToRole="T_Pais" />
+        </EntityType>
+        <EntityType Name="T_Pais">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Nombre_Pais" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="ID_Continente" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="T_Animal" Relationship="Self.FK_T_Animal_T_Pais" FromRole="T_Pais" ToRole="T_Animal" />
+          <NavigationProperty Name="T_Ciudades" Relationship="Self.FK_T_Ciudades_T_Pais" FromRole="T_Pais" ToRole="T_Ciudades" />
+          <NavigationProperty Name="T_Continente" Relationship="Self.FK_T_Pais_T_Continente" FromRole="T_Pais" ToRole="T_Continente" />
+        </EntityType>
+        <EntityType Name="T_Zoo">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="ID_Ciudad" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="T_Ciudades" Relationship="Self.FK_T_Zoo_T_Ciudades" FromRole="T_Zoo" ToRole="T_Ciudades" />
+          <NavigationProperty Name="T_Animal" Relationship="Self.T_Animales_Zoos" FromRole="T_Zoo" ToRole="T_Animal" />
+        </EntityType>
+        <Association Name="FK_T_Animal_T_Especie">
+          <End Role="T_Especie" Type="Self.T_Especie" Multiplicity="1" />
+          <End Role="T_Animal" Type="Self.T_Animal" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="T_Especie">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="T_Animal">
+              <PropertyRef Name="ID_Especie" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_T_Animal_T_Pais">
+          <End Role="T_Pais" Type="Self.T_Pais" Multiplicity="0..1" />
+          <End Role="T_Animal" Type="Self.T_Animal" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="T_Pais">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="T_Animal">
+              <PropertyRef Name="ID_Pais" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_T_Especie_T_Familia">
+          <End Role="T_Familia" Type="Self.T_Familia" Multiplicity="1" />
+          <End Role="T_Especie" Type="Self.T_Especie" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="T_Familia">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="T_Especie">
+              <PropertyRef Name="ID_Familia" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_T_Ciudades_T_Pais">
+          <End Role="T_Pais" Type="Self.T_Pais" Multiplicity="1" />
+          <End Role="T_Ciudades" Type="Self.T_Ciudades" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="T_Pais">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="T_Ciudades">
+              <PropertyRef Name="ID_Pais" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_T_Zoo_T_Ciudades">
+          <End Role="T_Ciudades" Type="Self.T_Ciudades" Multiplicity="1" />
+          <End Role="T_Zoo" Type="Self.T_Zoo" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="T_Ciudades">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="T_Zoo">
+              <PropertyRef Name="ID_Ciudad" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_T_Pais_T_Continente">
+          <End Role="T_Continente" Type="Self.T_Continente" Multiplicity="1" />
+          <End Role="T_Pais" Type="Self.T_Pais" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="T_Continente">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="T_Pais">
+              <PropertyRef Name="ID_Continente" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="T_Animales_Zoos">
+          <End Role="T_Animal" Type="Self.T_Animal" Multiplicity="*" />
+          <End Role="T_Zoo" Type="Self.T_Zoo" Multiplicity="*" />
+        </Association>
+        <EntityContainer Name="ZOOSEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="T_Users" EntityType="Self.T_Users" />
+          <EntitySet Name="T_Animal" EntityType="Self.T_Animal" />
+          <EntitySet Name="T_Especie" EntityType="Self.T_Especie" />
+          <EntitySet Name="T_Familia" EntityType="Self.T_Familia" />
+          <EntitySet Name="T_Ciudades" EntityType="Self.T_Ciudades" />
+          <EntitySet Name="T_Continente" EntityType="Self.T_Continente" />
+          <EntitySet Name="T_Pais" EntityType="Self.T_Pais" />
+          <EntitySet Name="T_Zoo" EntityType="Self.T_Zoo" />
+          <AssociationSet Name="FK_T_Animal_T_Especie" Association="Self.FK_T_Animal_T_Especie">
+            <End Role="T_Especie" EntitySet="T_Especie" />
+            <End Role="T_Animal" EntitySet="T_Animal" />
+          </AssociationSet>
+          <AssociationSet Name="FK_T_Animal_T_Pais" Association="Self.FK_T_Animal_T_Pais">
+            <End Role="T_Pais" EntitySet="T_Pais" />
+            <End Role="T_Animal" EntitySet="T_Animal" />
+          </AssociationSet>
+          <AssociationSet Name="FK_T_Especie_T_Familia" Association="Self.FK_T_Especie_T_Familia">
+            <End Role="T_Familia" EntitySet="T_Familia" />
+            <End Role="T_Especie" EntitySet="T_Especie" />
+          </AssociationSet>
+          <AssociationSet Name="FK_T_Ciudades_T_Pais" Association="Self.FK_T_Ciudades_T_Pais">
+            <End Role="T_Pais" EntitySet="T_Pais" />
+            <End Role="T_Ciudades" EntitySet="T_Ciudades" />
+          </AssociationSet>
+          <AssociationSet Name="FK_T_Zoo_T_Ciudades" Association="Self.FK_T_Zoo_T_Ciudades">
+            <End Role="T_Ciudades" EntitySet="T_Ciudades" />
+            <End Role="T_Zoo" EntitySet="T_Zoo" />
+          </AssociationSet>
+          <AssociationSet Name="FK_T_Pais_T_Continente" Association="Self.FK_T_Pais_T_Continente">
+            <End Role="T_Continente" EntitySet="T_Continente" />
+            <End Role="T_Pais" EntitySet="T_Pais" />
+          </AssociationSet>
+          <AssociationSet Name="T_Animales_Zoos" Association="Self.T_Animales_Zoos">
+            <End Role="T_Animal" EntitySet="T_Animal" />
+            <End Role="T_Zoo" EntitySet="T_Zoo" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="ZOOSModelStoreContainer" CdmEntityContainer="ZOOSEntities">
+          <EntitySetMapping Name="T_Users">
+            <EntityTypeMapping TypeName="ZOOSModel.T_Users">
+              <MappingFragment StoreEntitySet="T_Users">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="Usuario" ColumnName="Usuario" />
+                <ScalarProperty Name="Contrasena" ColumnName="Contrasena" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="T_Animal">
+            <EntityTypeMapping TypeName="ZOOSModel.T_Animal">
+              <MappingFragment StoreEntitySet="T_Animal">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="Sexo" ColumnName="Sexo" />
+                <ScalarProperty Name="Nacimiento" ColumnName="Nacimiento" />
+                <ScalarProperty Name="ID_Pais" ColumnName="ID_Pais" />
+                <ScalarProperty Name="ID_Especie" ColumnName="ID_Especie" />
+                <ScalarProperty Name="Nombre_Animal" ColumnName="Nombre_Animal" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="T_Especie">
+            <EntityTypeMapping TypeName="ZOOSModel.T_Especie">
+              <MappingFragment StoreEntitySet="T_Especie">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="Nombre_Vulgar" ColumnName="Nombre_Vulgar" />
+                <ScalarProperty Name="Nombre_Científico" ColumnName="Nombre_Científico" />
+                <ScalarProperty Name="Peligro_De_Extincion" ColumnName="Peligro_De_Extincion" />
+                <ScalarProperty Name="ID_Familia" ColumnName="ID_Familia" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="T_Familia">
+            <EntityTypeMapping TypeName="ZOOSModel.T_Familia">
+              <MappingFragment StoreEntitySet="T_Familia">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="Familia" ColumnName="Familia" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="T_Ciudades">
+            <EntityTypeMapping TypeName="ZOOSModel.T_Ciudades">
+              <MappingFragment StoreEntitySet="T_Ciudades">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="Nombre_Ciudad" ColumnName="Nombre_Ciudad" />
+                <ScalarProperty Name="ID_Pais" ColumnName="ID_Pais" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="T_Continente">
+            <EntityTypeMapping TypeName="ZOOSModel.T_Continente">
+              <MappingFragment StoreEntitySet="T_Continente">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="Nombre_Continente" ColumnName="Nombre_Continente" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="T_Pais">
+            <EntityTypeMapping TypeName="ZOOSModel.T_Pais">
+              <MappingFragment StoreEntitySet="T_Pais">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="Nombre_Pais" ColumnName="Nombre_Pais" />
+                <ScalarProperty Name="ID_Continente" ColumnName="ID_Continente" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="T_Zoo">
+            <EntityTypeMapping TypeName="ZOOSModel.T_Zoo">
+              <MappingFragment StoreEntitySet="T_Zoo">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="ID_Ciudad" ColumnName="ID_Ciudad" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <AssociationSetMapping Name="T_Animales_Zoos" TypeName="ZOOSModel.T_Animales_Zoos" StoreEntitySet="T_Animales_Zoos">
+            <EndProperty Name="T_Animal">
+              <ScalarProperty Name="ID" ColumnName="ID_Animal" />
+            </EndProperty>
+            <EndProperty Name="T_Zoo">
+              <ScalarProperty Name="ID" ColumnName="ID_ZOO" />
+            </EndProperty>
+          </AssociationSetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>
