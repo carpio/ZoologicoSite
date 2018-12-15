@@ -32,11 +32,11 @@ namespace ZoologicoSite.Controllers
 
             //All option
             var allOption = new SelectListItem();
-            allOption.Value = "All";
-            allOption.Text = "All";
+            allOption.Value = "Todos";
+            allOption.Text = "Todos";
             selectList.Add(allOption);
 
-            if (string.IsNullOrEmpty(nombreContinente))
+            if (string.IsNullOrEmpty(nombreContinente) || nombreContinente == "Todos")
             {                
                 foreach (var c in continenteList)
                 {
@@ -50,7 +50,8 @@ namespace ZoologicoSite.Controllers
                 return View(modelo);
             }
             else
-            {                
+            {       
+                
                 foreach (var c in continenteList)
                 {
                     var selectItem = new SelectListItem();
@@ -62,29 +63,7 @@ namespace ZoologicoSite.Controllers
                 modelo.ListaPaises = (from p in dbContext.T_Pais where p.T_Continente.Nombre_Continente == nombreContinente select p).ToList();
                 return View(modelo);
             }
-            //var modelo = new ContinentesPaisesModel();
-
-            //if (id == null)
-            //{
-            //    modelo.ListaContinentes = (from c in dbContext.T_Continente select c).ToList();
-            //    modelo.ListaPaises = dbContext.T_Pais.ToList();
-            //    return View(modelo);
-            //}
-            //else
-            //{
-            //var continenteList = (from c in dbContext.T_Continente select c).ToList();
-            //var selectList = new List<SelectListItem>();
-            //foreach(var c in continenteList)
-            //{
-            //    var selectItem = new SelectListItem();
-            //    selectItem.Value = c.Nombre_Continente;
-            //    selectItem.Text = c.Nombre_Continente;
-            //    selectList.Add(selectItem);
-            //}
-            //modelo.ListaContinentes = selectList;
-            //modelo.ListaPaises = (from p in dbContext.T_Pais where p.T_Continente.Nombre_Continente == nombreContinente select p).ToList();
-            //return View(modelo);
-            //}
+            
         }
         
         // GET: Paises/Details/5
@@ -96,19 +75,47 @@ namespace ZoologicoSite.Controllers
         // GET: Paises/Create
         public ActionResult Create()
         {
-            return View();
+            var modelo = new ContinentesPaisesModel();
+
+            var selectList = new List<SelectListItem>();
+
+            var continenteList = dbContext.T_Continente.Select(s => new {
+                s.ID,
+                s.Nombre_Continente
+            }).ToList();
+
+            foreach (var c in continenteList)
+            {
+                var selectItem = new SelectListItem();
+                selectItem.Value = c.Nombre_Continente;
+                selectItem.Text = c.Nombre_Continente;
+                selectList.Add(selectItem);
+            }
+            modelo.ListaContinentes = selectList;        
+            
+            return View(modelo);
         }
 
         // POST: Paises/Create
         [HttpPost]
-        public ActionResult Create([Bind(Include = "ID, Nombre_Pais, ID_Continente")] T_Pais pais)
+        public ActionResult Create([Bind(Include = "ID, NombrePais, NombreContinente")] ContinentesPaisesModel pais)
         {
             try
             {
                 // TODO: Add insert logic here
                 if(ModelState.IsValid)
                 {
-                    dbContext.T_Pais.Add(pais);
+                    var nuevoPais = new T_Pais();
+
+                    var continente = (from c in dbContext.T_Continente
+                                      where c.Nombre_Continente == pais.NombreContinente
+                                      select c).FirstOrDefault();
+                    //var continente2 = dbContext.T_Continente.FirstOrDefault(s => s.Nombre_Continente == pais.NombreContinente);
+
+                    nuevoPais.ID_Continente = continente.ID;
+                    nuevoPais.Nombre_Pais = pais.NombrePais;
+
+                    dbContext.T_Pais.Add(nuevoPais);
                     dbContext.SaveChanges();
                 }
                 return RedirectToAction("Index");

@@ -10,6 +10,8 @@ namespace ZoologicoSite.Models
     {
         public List<T_Pais> ListaPaises { get; set; }
         public List<SelectListItem> ListaContinentes { get; set; }
-        public string nombreContinente { get; set; }
+        public string NombreContinente { get; set; }
+        public int ID_Continente { get; set; }
+        public string NombrePais { get; set; }
     }
 }

@@ -11,15 +11,10 @@
     @Html.ActionLink("Create New", "Create")
 </p>
 <div id="ddFiltroContintentesContenedor">
-    @*<select onchange="filtrarContinente();" id="ddFiltroContinentes">
-        @foreach (var item in Model.ListaContinentes)
-        {
-            <option id=@item.ID>@item.Nombre_Continente</option>
-        }
-        </select>*@
+    
 @using (Html.BeginForm("Index", "Paises", FormMethod.Get))
 {
-    @Html.DropDownListFor(f => f.nombreContinente, Model.ListaContinentes)
+    @Html.DropDownListFor(f => f.NombreContinente, Model.ListaContinentes)
     <input type="submit" value="Filtrar" />
 }
 </div>
