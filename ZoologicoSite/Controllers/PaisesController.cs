@@ -11,19 +11,7 @@ namespace ZoologicoSite.Controllers
     {
         private ZOOSEntities dbContext = new ZOOSEntities();
         // GET: Paises
-        //public ActionResult Index()
-        //{
-        //    //var paises = (from p in dbContext.T_Pais
-        //    //              where p.ID_Continente == 1
-        //    //              select p
-        //    //              ).ToList();
-        //    //var paises2 = dbContext.T_Pais.Where(p => p.ID_Continente == 1).ToList();
-        //    var modelo = new ContinentesPaisesModel();
-        //    modelo.ListaContinentes = (from c in dbContext.T_Continente select c).ToList();
-        //    modelo.ListaPaises = dbContext.T_Pais.ToList();
-        //    return View(modelo);
-        //}
-
+        
         public ActionResult Index(string nombreContinente)
         {
             var modelo = new ContinentesPaisesModel();
