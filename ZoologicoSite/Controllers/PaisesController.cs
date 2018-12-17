@@ -117,7 +117,27 @@ namespace ZoologicoSite.Controllers
         // GET: Paises/Edit/5
         public ActionResult Edit(int id)
         {
-            return View();
+            var modelo = new ContinentesPaisesModel();
+
+            var paisModificar = dbContext.T_Pais.FirstOrDefault(s => s.ID == id);
+            modelo.NombrePais = paisModificar.Nombre_Pais;
+            modelo.NombreContinente = paisModificar.T_Continente.Nombre_Continente;
+
+            var selectList = new List<SelectListItem>();
+
+            var continenteList = dbContext.T_Continente.ToList();
+
+            foreach (var c in continenteList)
+            {
+                var selectItem = new SelectListItem();
+                selectItem.Value = c.Nombre_Continente;
+                selectItem.Text = c.Nombre_Continente;
+                selectList.Add(selectItem);
+            }
+
+            modelo.ListaContinentes = selectList;
+
+            return View(modelo);
         }
 
         // POST: Paises/Edit/5

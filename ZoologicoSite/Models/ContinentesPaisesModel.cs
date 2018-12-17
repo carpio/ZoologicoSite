@@ -13,5 +13,6 @@ namespace ZoologicoSite.Models
         public string NombreContinente { get; set; }
         public int ID_Continente { get; set; }
         public string NombrePais { get; set; }
+        public int ID_Pais { get; set; }
     }
 }
